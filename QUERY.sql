@@ -99,7 +99,7 @@ INSERT INTO Bookings (booking_id, user_id, match_id, seat_number, payment_status
 -- Query 1: Retrieve all upcoming football matches belonging to the 'Champions League' where the match status is 'Available'.
 
 SELECT match_id,fixture,base_ticket_price FROM matches
-WHERE tournament_category = 'Champions League'
+WHERE tournament_category = 'Champions League' AND match_status = 'Available' ;
 
 
 --Query 2: Search for all users whose full names start with 'Tanvir' or contain the phrase 'Haque' (case-insensitive).
@@ -119,7 +119,7 @@ WHERE payment_status IS NULL;
 --Query 4: Retrieve match booking details along with the User's full name and the scheduled Match fixture teams.
 
 
-SELECT booking_id ,full_name ,fixture,total_cost FROM bookings b
+SELECT booking_id ,u.full_name ,fixture,total_cost FROM bookings b
 INNER JOIN matches m ON b.match_id = m.match_id
 INNER JOIN users u ON b.user_id = u.user_id;
 
