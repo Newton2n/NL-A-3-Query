@@ -106,7 +106,7 @@ WHERE tournament_category = 'Champions League' AND match_status = 'Available' ;
 
 SELECT user_id,full_name,email FROM users
 WHERE full_name ILIKE 'Tanvir%' 
-OR full_name ILIKE '%Haque';
+OR full_name ILIKE '%Haque%';
 
 
 --Query 3: Retrieve all booking records where the payment status is missing (NULL), replacing the empty result with 'Action Required'.
