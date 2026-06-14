@@ -1,3 +1,9 @@
+CREATE DATABASE Football_Ticket_Booking_System
+
+
+
+
+
 -- =========================================================================
 -- SYSTEM: Football Ticket Booking System Database Setup Template
 -- DESCRIPTION: Pseudo-DDL Template for Table Creation & Data Insertion
@@ -14,11 +20,11 @@ DROP TABLE IF EXISTS Users;
 -- 1. CREATE USERS TABLE
 -- =========================================================================
 CREATE TABLE Users (
-    user_id TYPE,
-    full_name TYPE,
-    email TYPE,
-    role TYPE,
-    phone_number TYPE,
+    user_id INT PRIMARY KEY,
+    full_name VARCHAR(150) NOT NULL,
+    email VARCHAR(254) UNIQUE NOT NULL,
+    role VARCHAR(25) CHECK(role IN('Ticket Manager','Football Fan')),
+    phone_number VARCHAR(50)
     
     -- Write your constraint to make 'user_id' the Primary Key
     -- Write your constraint to ensure 'email' values are never duplicated
@@ -29,11 +35,11 @@ CREATE TABLE Users (
 -- 2. CREATE MATCHES TABLE
 -- =========================================================================
 CREATE TABLE Matches (
-    match_id TYPE,
-    fixture TYPE,
-    tournament_category TYPE,
-    base_ticket_price TYPE,
-    match_status TYPE,
+    match_id INT PRIMARY KEY,
+    fixture VARCHAR(250) NOT NULL,
+    tournament_category VARCHAR(250) NOT NULL,
+    base_ticket_price DECIMAL(10,2) CHECK(base_ticket_price > 0),
+    match_status VARCHAR(20) CHECK( match_status IN('Available', 'Selling Fast', 'Sold Out', 'Postponed')) NOT NULL
     
     -- Write your constraint to make 'match_id' the Primary Key
     -- Write your check constraint to prevent negative ticket prices
@@ -44,12 +50,12 @@ CREATE TABLE Matches (
 -- 3. CREATE BOOKINGS TABLE
 -- =========================================================================
 CREATE TABLE Bookings (
-    booking_id TYPE,
-    user_id TYPE,
-    match_id TYPE,
-    seat_number TYPE,
-    payment_status TYPE,
-    total_cost TYPE,
+    booking_id INT PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id),
+    match_id INT REFERENCES Matches(match_id),
+    seat_number VARCHAR(100),
+    payment_status VARCHAR(25) CHECK(payment_status IN('Pending', 'Confirmed', 'Cancelled', 'Refunded')),
+    total_cost DECIMAL(10,2) NOT NULL CHECK(total_cost > 0)
     
     -- Write your constraint to make 'booking_id' the Primary Key
     -- Write your Foreign Key constraint linking 'user_id' to the Users table
@@ -87,3 +93,6 @@ INSERT INTO Bookings (booking_id, user_id, match_id, seat_number, payment_status
 (503, 2, 101, 'A-13', 'Confirmed', 150.00),
 (504, 2, 101, NULL, NULL, 150.00),
 (505, 3, 102, 'C-20', 'Pending', 120.00);
+
+
+
