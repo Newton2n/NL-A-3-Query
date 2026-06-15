@@ -25,10 +25,6 @@ CREATE TABLE Users (
     email VARCHAR(254) UNIQUE NOT NULL,
     role VARCHAR(25) NOT NULL CHECK(role IN('Ticket Manager','Football Fan')) ,
     phone_number VARCHAR(50)
-    
-    -- Write your constraint to make 'user_id' the Primary Key
-    -- Write your constraint to ensure 'email' values are never duplicated
-    -- Write your check constraint to restrict 'role' to specific allowed strings
 );
 
 -- =========================================================================
@@ -40,10 +36,6 @@ CREATE TABLE Matches (
     tournament_category VARCHAR(250) NOT NULL,
     base_ticket_price DECIMAL(10,2) NOT NULL CHECK(base_ticket_price > 0) ,
     match_status VARCHAR(20) NOT NULL CHECK( match_status IN('Available', 'Selling Fast', 'Sold Out', 'Postponed')) 
-    
-    -- Write your constraint to make 'match_id' the Primary Key
-    -- Write your check constraint to prevent negative ticket prices
-    -- Write your check constraint to restrict 'match_status' values
 );
 
 -- =========================================================================
@@ -56,12 +48,6 @@ CREATE TABLE Bookings (
     seat_number VARCHAR(100),
     payment_status VARCHAR(25) CHECK(payment_status IN('Pending', 'Confirmed', 'Cancelled', 'Refunded')),
     total_cost DECIMAL(10,2) NOT NULL CHECK(total_cost > 0)
-    
-    -- Write your constraint to make 'booking_id' the Primary Key
-    -- Write your Foreign Key constraint linking 'user_id' to the Users table
-    -- Write your Foreign Key constraint linking 'match_id' to the Matches table
-    -- Write your check constraint to ensure 'total_cost' is non-negative
-    -- Write your check constraint to restrict 'payment_status' values
 );
 
 
@@ -138,12 +124,3 @@ WHERE total_cost > (SELECT AVG(total_cost) FROM bookings);
 
 SELECT match_id, fixture, base_ticket_price FROM matches
 ORDER BY base_ticket_price DESC LIMIT 2 OFFSET 1;
-
-
-
-
-
-
-
-
-
