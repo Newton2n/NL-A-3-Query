@@ -47,7 +47,8 @@ CREATE TABLE Bookings (
     match_id INT REFERENCES Matches(match_id),
     seat_number VARCHAR(100),
     payment_status VARCHAR(25) CHECK(payment_status IN('Pending', 'Confirmed', 'Cancelled', 'Refunded')),
-    total_cost DECIMAL(10,2) NOT NULL CHECK(total_cost > 0)
+    total_cost DECIMAL(10,2) NOT NULL CHECK(total_cost > 0),
+    CONSTRAINT match_seat_unique UNIQUE (match_id,seat_number)
 );
 
 
