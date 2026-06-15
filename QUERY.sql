@@ -23,7 +23,7 @@ CREATE TABLE Users (
     user_id INT PRIMARY KEY,
     full_name VARCHAR(150) NOT NULL,
     email VARCHAR(254) UNIQUE NOT NULL,
-    role VARCHAR(25) CHECK(role IN('Ticket Manager','Football Fan')),
+    role VARCHAR(25) NOT NULL CHECK(role IN('Ticket Manager','Football Fan')) ,
     phone_number VARCHAR(50)
     
     -- Write your constraint to make 'user_id' the Primary Key
@@ -38,8 +38,8 @@ CREATE TABLE Matches (
     match_id INT PRIMARY KEY,
     fixture VARCHAR(250) NOT NULL,
     tournament_category VARCHAR(250) NOT NULL,
-    base_ticket_price DECIMAL(10,2) CHECK(base_ticket_price > 0),
-    match_status VARCHAR(20) CHECK( match_status IN('Available', 'Selling Fast', 'Sold Out', 'Postponed')) NOT NULL
+    base_ticket_price DECIMAL(10,2) NOT NULL CHECK(base_ticket_price > 0) ,
+    match_status VARCHAR(20) NOT NULL CHECK( match_status IN('Available', 'Selling Fast', 'Sold Out', 'Postponed')) 
     
     -- Write your constraint to make 'match_id' the Primary Key
     -- Write your check constraint to prevent negative ticket prices
@@ -115,9 +115,7 @@ SELECT booking_id,user_id,match_id,COALESCE(payment_status,'Action Required') as
 WHERE payment_status IS NULL;
 
 
-
 --Query 4: Retrieve match booking details along with the User's full name and the scheduled Match fixture teams.
-
 
 SELECT booking_id ,u.full_name ,fixture,total_cost FROM bookings b
 INNER JOIN matches m ON b.match_id = m.match_id
@@ -126,20 +124,26 @@ INNER JOIN users u ON b.user_id = u.user_id;
 
 --Query 5: Display a comprehensive list of all users and their booking IDs, ensuring that fans who have never bought a ticket are still listed.
 
-
 SELECT u.user_id, full_name ,booking_id FROM users u
 LEFT JOIN bookings b ON b.user_id = u.user_id;
 
 
 --Query 6: Find all ticket bookings where the total cost is strictly higher than the average cost of all ticket bookings.
 
-
 SELECT booking_id,match_id,	total_cost FROM bookings
-WHERE total_cost > (SELECT AVG(total_cost) FROM bookings)
+WHERE total_cost > (SELECT AVG(total_cost) FROM bookings);
 
+  
 --Query 7: Retrieve the top 2 most expensive matches sorted by base ticket price, skipping the absolute highest premium match.
 
-
 SELECT match_id, fixture, base_ticket_price FROM matches
-ORDER BY base_ticket_price DESC LIMIT 2 OFFSET 1
+ORDER BY base_ticket_price DESC LIMIT 2 OFFSET 1;
+
+
+
+
+
+
+
+
 
