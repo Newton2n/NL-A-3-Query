@@ -1,8 +1,3 @@
-CREATE DATABASE Football_Ticket_Booking_System
-
-
--- =========================================================================
-
 -- DROP TABLES IF THEY ALREADY EXIST TO PREVENT CONFLICTS
 DROP TABLE IF EXISTS Bookings;
 DROP TABLE IF EXISTS Matches;
